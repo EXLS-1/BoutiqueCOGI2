@@ -1,8 +1,8 @@
 
 const Index = () => (
     <div>
-      <h1>Welcome to the Boutique</h1>
-      <p>Discover our latest collection!</p>
+      <h1>Bienven(e) dans la Boutique COGI</h1>
+      <p>Votre espace dédié pour des collections élegantes et stylisées notre  collection !</p>
     </div>
 )
 
