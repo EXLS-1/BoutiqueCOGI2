@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
+/* Commentez cette ligne si l'erreur persiste */
+@plugin "tailwindcss-animate";
+
 @theme {
-  /* Couleurs de marque */
+  /* Couleurs de marque Boutique COGI */
   --color-turquoise: rgb(64, 224, 208);
   --color-rose-cogi: rgb(244, 63, 94);
   
@@ -11,30 +14,52 @@
   --color-red-cogi: rgb(239, 68, 68);
   --color-lime-cogi: rgb(190, 242, 18);
 
-  /* Mapping Shadcn (Système) */
+  /* Mapping des variables Shadcn pour Tailwind v4 */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--color-turquoise);
-  --color-primary-foreground: white;
   --color-secondary: var(--color-rose-cogi);
-  --color-secondary-foreground: white;
-  --color-accent: var(--color-rose-cogi);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --radius: 0.75rem;
+  --background: rgb(255, 255, 255);
+  --foreground: rgb(10, 10, 10);
+  --card: rgb(255, 255, 255);
+  --card-foreground: rgb(10, 10, 10);
+  --popover: rgb(255, 255, 255);
+  --popover-foreground: rgb(10, 10, 10);
+  --muted: rgb(244, 244, 244);
+  --muted-foreground: rgb(115, 115, 115);
+  --accent: rgb(244, 244, 244);
+  --accent-foreground: rgb(10, 10, 10);
+  --destructive: rgb(239, 68, 68);
+  --destructive-foreground: rgb(250, 250, 250);
+  --border: rgb(229, 229, 229);
+  --input: rgb(229, 229, 229);
+  --ring: rgb(64, 224, 208);
+  --radius: 0.5rem;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+  --background: rgb(10, 10, 10);
+  --foreground: rgb(250, 250, 250);
+  --border: rgb(38, 38, 38);
 }
 
 @layer base {
-  * { @apply border-border; }
-  body { @apply bg-background text-foreground antialiased; }
+  * {
+    /* Utilisation de la variable CSS directement pour éviter l'erreur d'import v4 */
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
 }

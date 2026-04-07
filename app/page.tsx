@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="space-y-12">
 
-      {/* Hero */}
+      {/* HeroCarousel */}
       <section className="text-center py-16">
         <h1 className="text-4xl md:text-5xl font-bold text-turquoise">
           Boutique COGI
@@ -17,7 +17,7 @@ export default function Home() {
       {/* Categories */}
       <section className="container mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-6">Catégories</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
           {["Homme", "Femme", "Enfant", "Sac", "Accessoires"].map((cat) => (
             <div
               key={cat}
