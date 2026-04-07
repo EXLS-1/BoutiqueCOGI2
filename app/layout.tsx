@@ -2,49 +2,45 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
-import Hero from "@/components/herocarousel"
 import Footer from "@/components/footer";
-import Leftsidebar from "@/components/leftsidebar";
-import rightsidebar from "@/components/rightsidebar";
 
-const inter = Inter({
-  variable: "--turqoise",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Boutique COGI",
-  description: "A la decouverte du style et de l'élegance",
+  title: "Boutique COGI | Élégance & Style",
+  description: "Découvrez nos collections exclusives de mode.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="fr">
-      <body className={'${inter.className} min-h-screen flex flex-col bg-state-50'}>
-        <Navbar/>
-        <HeroCarousel/>
-
-        {/* Conteneur principal avec les 2 sidebars */}
-        <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar de Gauche: Menu & Parametre */}
-          <aside className="hidden md:block w-64 border-r bg-white p-4">
-            Leftsidebar
+    <html lang="fr" suppressHydrationWarning>
+      <body className={`${inter.className} min-h-screen flex flex-col bg-slate-50`}>
+        <Navbar />
+        
+        <div className="flex flex-1 container mx-auto">
+          {/* Sidebar Gauche */}
+          <aside className="hidden lg:block w-64 border-r py-8 px-4 shrink-0">
+            {/* Composant LeftSidebar à venir */}
+            <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Menu</p>
           </aside>
-          {/* Conteneur Central */}
-          <main className="flex-1 overflow-y-auto">
-          {children}
+
+          {/* Contenu Principal */}
+          <main className="flex-1 px-6 py-8">
+            {children}
           </main>
-          {/* Sidebar de Droite: Favoris & Panier */}
-          <aside className="hidden md:block w-72 border-r bg-white p-4">
-            Rightsidebar
+
+          {/* Sidebar Droite */}
+          <aside className="hidden xl:block w-80 border-l py-8 px-4 shrink-0">
+            {/* Composant RightSidebar à venir */}
+            <p className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Panier Rapide</p>
           </aside>
         </div>
 
-        <footer/>
+        <Footer />
       </body>
     </html>
   );
