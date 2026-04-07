@@ -5,40 +5,53 @@ import { Input } from "@/components/ui/input";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
+      <div className="container mx-auto flex h-16 items-center gap-4 px-4">
         
-        {/* Logo Textuel */}
-        <Link href="/" className="group transition-all">
-          <span className="text-2xl font-black text-turquoise group-hover:text-rose-cogi transition-colors">
+        {/* Logo Textuel - Identité Visuelle */}
+        <Link href="/" className="shrink-0">
+          <span className="text-2xl font-black tracking-tighter text-turquoise hover:text-rose-cogi transition-colors duration-300">
             Boutique COGI
           </span>
         </Link>
 
-        {/* Barre de recherche centrale */}
-        <div className="hidden lg:flex relative w-full max-w-sm items-center mx-8">
-          <Search className="absolute left-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Rechercher un article..."
-            className="pl-9 focus-visible:ring-turquoise"
-          />
+        {/* Barre de recherche - Flex-1 pour occuper l'espace central */}
+        <div className="flex-1 max-w-md mx-auto hidden md:block">
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-turquoise transition-colors" />
+            <Input
+              type="search"
+              placeholder="Rechercher l'élégance..."
+              className="pl-10 border-slate-200 focus:border-turquoise focus:ring-turquoise/20 rounded-full bg-slate-50/50"
+            />
+          </div>
         </div>
 
-        {/* Actions utilisateur */}
-        <nav className="flex items-center gap-2">
-          <Button variant="ghost" className="hidden sm:flex text-turquoise hover:text-rose-cogi">
-            <User className="mr-2 h-5 w-5" />
-            Log In
+        {/* Actions utilisateur - Alignées à droite */}
+        <nav className="flex items-center gap-1 sm:gap-3">
+          <Button 
+            variant="ghost" 
+            className="text-turquoise hover:text-rose-cogi hover:bg-rose-cogi/5 gap-2 transition-all font-medium"
+          >
+            <User className="h-5 w-5" />
+            <span className="hidden lg:inline">Se connecter</span>
           </Button>
           
-          <Button variant="ghost" size="icon" className="text-red-cogi hover:bg-red-cogi/10">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-turquoise hover:text-rose-cogi hover:bg-rose-cogi/5"
+          >
             <Heart className="h-5 w-5" />
           </Button>
 
-          <Button variant="ghost" size="icon" className="relative text-turquoise hover:bg-turquoise/10">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative text-turquoise hover:text-rose-cogi hover:bg-rose-cogi/5"
+          >
             <ShoppingCart className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-cogi text-[10px] text-white font-bold">
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-cogi text-[10px] text-white font-bold animate-in zoom-in">
               0
             </span>
           </Button>

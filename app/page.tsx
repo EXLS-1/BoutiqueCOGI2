@@ -18,7 +18,7 @@ export default function Home() {
       <section className="container mx-auto px-4">
         <h2 className="text-2xl font-semibold mb-6">Catégories</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {["Homme", "Femme", "Accessoires", "Promo"].map((cat) => (
+          {["Homme", "Femme", "Enfant", "Sac", "Accessoires"].map((cat) => (
             <div
               key={cat}
               className="p-6 border rounded-xl hover:border-turquoise cursor-pointer transition"
