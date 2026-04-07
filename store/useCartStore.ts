@@ -4,20 +4,21 @@ import { persist } from "zustand/middleware";
 export type CartItem = {
   id: string;
   name: string;
-  price: number;
+  price: number; // Toujours en centimes (ex: 2999 pour 29.99€)
   quantity: number;
 };
 
 type CartStore = {
   items: CartItem[];
-  addToCart: (product: CartItem) => void;
+  addToCart: (product: Omit<CartItem, "quantity">) => void;
   removeFromCart: (id: string) => void;
   clearCart: () => void;
+  getTotal: () => number;
 };
 
 export const useCartStore = create<CartStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       items: [],
       addToCart: (product) =>
         set((state) => {
@@ -40,9 +41,13 @@ export const useCartStore = create<CartStore>()(
           items: state.items.filter((i) => i.id !== id),
         })),
       clearCart: () => set({ items: [] }),
+      // Ajout d'une fonction utilitaire pour calculer le total du panier
+      getTotal: () => {
+        return get().items.reduce((total, item) => total + (item.price * item.quantity), 0);
+      },
     }),
     {
-      name: "cogi-cart-storage", // Le nom de la clé dans le localStorage
+      name: "cogi-cart-storage",
     }
   )
 );

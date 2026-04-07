@@ -1,12 +1,28 @@
-import { supabase } from "@/lib/supabase"
+import { createClient } from '@supabase/supabase-js';
+import type { Product } from '@/types/database';
 
-export async function getProducts() {
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("is_active", true)
+// Le client est isolé et réutilisable
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
-  if (error) throw error
+export async function getActiveProducts(): Promise<Product[]> {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false });
 
-  return data
+    if (error) {
+      console.error("Erreur Supabase:", error.message);
+      throw new Error("Impossible de charger ou de récupérer les produits.");
+    }
+
+    return data as Product[];
+  } catch (error) {
+    console.error("Erreur lors de la récupération des produits:", error);
+    return []; // Retourne un tableau vide pour ne pas faire crasher l'interface
+  }
 }

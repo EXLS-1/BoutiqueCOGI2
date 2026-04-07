@@ -1,40 +1,90 @@
-import { create } from 'zustand';
-import { createClient } from '@supabase/supabase-js';
-import type { Product } from '@/types/database';
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
 
-// Initialisation temporaire de Supabase (à déplacer dans un fichier lib/supabase.ts idéalement)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-interface ProductState {
-  products: Product[];
-  isLoading: boolean;
-  error: string | null;
-  fetchProducts: () => Promise<void>;
+export type CartItem = {
+  id: string
+  name: string
+  price: number
+  quantity: number
 }
 
-export const useProductStore = create<ProductState>((set) => ({
-  products: [],
-  isLoading: false,
-  error: null,
+type CartStore = {
+  items: CartItem[]
+  total: number
 
-  fetchProducts: async () => {
-    set({ isLoading: true, error: null });
-    
-    try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false });
+  addToCart: (product: Omit<CartItem, "quantity">) => void
+  removeFromCart: (id: string) => void
+  decreaseQty: (id: string) => void
+  clearCart: () => void
+}
 
-      if (error) throw error;
+export const useCartStore = create<CartStore>()(
+  persist(
+    (set, get) => ({
+      items: [],
+      total: 0,
 
-      set({ products: data as Product[], isLoading: false });
-    } catch (err: any) {
-      set({ error: err.message, isLoading: false });
-      console.error("Erreur lors de la récupération des produits:", err.message);
+      addToCart: (product) =>
+        set((state) => {
+          const existing = state.items.find((i) => i.id === product.id)
+
+          let updatedItems
+
+          if (existing) {
+            updatedItems = state.items.map((i) =>
+              i.id === product.id
+                ? { ...i, quantity: i.quantity + 1 }
+                : i
+            )
+          } else {
+            updatedItems = [...state.items, { ...product, quantity: 1 }]
+          }
+
+          return {
+            items: updatedItems,
+            total: updatedItems.reduce(
+              (acc, item) => acc + item.price * item.quantity,
+              0
+            ),
+          }
+        }),
+
+      decreaseQty: (id) =>
+        set((state) => {
+          const updatedItems = state.items
+            .map((i) =>
+              i.id === id
+                ? { ...i, quantity: i.quantity - 1 }
+                : i
+            )
+            .filter((i) => i.quantity > 0)
+
+          return {
+            items: updatedItems,
+            total: updatedItems.reduce(
+              (acc, item) => acc + item.price * item.quantity,
+              0
+            ),
+          }
+        }),
+
+      removeFromCart: (id) =>
+        set((state) => {
+          const updatedItems = state.items.filter((i) => i.id !== id)
+
+          return {
+            items: updatedItems,
+            total: updatedItems.reduce(
+              (acc, item) => acc + item.price * item.quantity,
+              0
+            ),
+          }
+        }),
+
+      clearCart: () => set({ items: [], total: 0 }),
+    }),
+    {
+      name: "cogi-cart-storage",
     }
-  },
-}));
+  )
+)
