@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import CartWidget from "@/components/cart-widget";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -9,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen bg-[#FAFCFD]`}>
         <div className="relative flex min-h-screen flex-col">
-          <Navbar />
+          <Navbar/>
           
           <div className="flex-1 container mx-auto">
             <div className="flex flex-col lg:flex-row gap-8">
@@ -31,16 +33,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Sidebar Droite - Widgets Panier/Promo */}
               <aside className="hidden xl:block w-72 shrink-0 py-10">
-                <div className="sticky top-24 border rounded-2xl p-6 bg-white shadow-sm border-slate-100">
-                  <h3 className="font-bold text-slate-800 mb-4">Panier Rapide</h3>
-                  <p className="text-sm text-slate-500">Votre panier est vide.</p>
-                </div>
+                <CartWidget />
               </aside>
 
             </div>
           </div>
 
           {/* Footer */}
+          <Footer/>
         </div>
       </body>
     </html>
